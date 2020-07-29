@@ -128,8 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-sqlconnection.py
-!/models/grid_search.pkl
-!/models/KNAugmentedClassifier.pkl
-!/models/KNeighborsClassifier.pkl
-!/MNISTvenv/
+/models/grid_search.pkl
+/models/KNAugmentedClassifier.pkl
+/models/KNeighborsClassifier.pkl
+/MNISTvenv/
+MLvenv/
+models/
+

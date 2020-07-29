@@ -2,7 +2,7 @@
 from skimage import filters
 from skimage.measure import regionprops
 from scipy import ndimage
-<<<<<<< HEAD
+
 import numpy as np
 from sklearn.base import TransformerMixin, BaseEstimator
 
@@ -47,8 +47,6 @@ def contrast(X):
     """Boost the contrast"""
     X_boosted = (255 / 1.5) * (X / (255 / 1.5)) ** 2
     return X_boosted
-=======
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
 
 
 def centre_mass(im):
@@ -68,7 +66,6 @@ def centre_mass(im):
 
 
 def shift_image(X, dx=0, dy=0):
-<<<<<<< HEAD
     image = X.reshape(28, 28)
     im = ndimage.shift(image, [dy, dx], output=None, order=3, mode='constant', cval=0.0, prefilter=True)
     return im.reshape([-1])
@@ -99,11 +96,10 @@ def append_new_images(data, labels):
             x_aug.append(shifted_image)
             y_aug.append(lb)
     return x_aug, y_aug
-=======
-    im = ndimage.shift(X, [dy, dx], output=None, order=3, mode='constant', cval=0.0, prefilter=True)
-    return im
 
 
 
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
+
+
+
 

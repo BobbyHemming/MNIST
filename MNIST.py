@@ -4,12 +4,10 @@ import datetime
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 sys.path.insert(0, '/Users/roberthemming/SourceCode/Python/Packages/timeTest')
-import timer as tt
 import pandas as pd
 import numpy as np
 
-from visualisation import plot_digit_prediction, plot_multiple_digits
-<<<<<<< HEAD
+from visualisation import plot_digit_prediction, plot_multiple_digits, console_newline
 from imprep import centre_mass, shift_image, four_image_shift, append_new_images
 from modelprep import save_model, load_model
 
@@ -21,13 +19,13 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 # from sklearn.externals import joblib
 import joblib
-=======
+
 from imprep import centre_mass, shift_image
 
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import StratifiedShuffleSplit
 from skimage.color import label2rgb
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
+
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -35,15 +33,14 @@ mpl.rc('axes', labelsize=14)
 mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
 
-<<<<<<< HEAD
+
 # pd.set_option('display.max_rows', 500)
 # pd.set_option('display.max_columns', 20)
 # pd.set_option('display.width', 1000)
-=======
+
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 20)
 pd.set_option('display.width', 1000)
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
 
 PROJECT_ROOT_DIR = ""
 CHAPTER_ID = "classification"
@@ -72,10 +69,9 @@ def sort_by_target(mnist, ratio):
 mnist_dataset = fetch_openml('mnist_784', version=1, cache=True)
 mnist_dataset.target = mnist_dataset.target.astype(np.int8)  # fetch_openml() returns targets as strings
 sort_by_target(mnist_dataset, (6.0/7.0))  # fetch_openml() returns an unsorted dataset
-<<<<<<< HEAD
-=======
+
 print(mnist_dataset['target'], type(mnist_dataset['target']))
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
+
 
 mnist_df = pd.DataFrame({'data': list(mnist_dataset['data']), 'target': np.array(mnist_dataset['target'])},
                         columns=['data', 'target'])
@@ -84,7 +80,6 @@ mnist_df = pd.DataFrame({'data': list(mnist_dataset['data']), 'target': np.array
 # print(mnist_df.head())
 split = StratifiedShuffleSplit(n_splits=1, test_size=(1/7.0), random_state=42)
 for train_index, test_index in split.split(mnist_df['data'], mnist_df['target']):
-<<<<<<< HEAD
     x, y = mnist_dataset['data'][train_index], mnist_dataset['target'][train_index]
     x_test, y_test = mnist_dataset['data'][test_index], mnist_dataset['target'][test_index]
 
@@ -94,19 +89,6 @@ strat_props_test = [round(m, 3) for m in (np.unique(y_test, return_counts=True)[
 
 strat_check = zip(strat_props_train, strat_props_test)
 print(tuple(strat_check))
-=======
-    mnist_train = mnist_df.iloc[train_index]
-    mnist_test = mnist_df.iloc[test_index]
-
-# print(mnist_train.head())
-# print(mnist_train.info())
-
-print(f'Training Target data type: {type(mnist_train["target"])} '
-      f'and an example: {mnist_train["target"].iloc[0]}')
-
-x, y = mnist_train['data'].to_numpy(), mnist_train['target'].to_numpy()
-x_test, y_test = mnist_test['data'].to_numpy(), mnist_test['target'].to_numpy()
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
 
 
 if not os.path.isfile('images/multiple_digit_example.png'):
@@ -116,7 +98,6 @@ if not os.path.isfile('images/multiple_digit_example.png'):
     save_im("multiple_digit_example")
     plt.show()
 
-<<<<<<< HEAD
 # for a new list of images including 4 more shifted in each direction: (1 instance to 5, 3 instances to 15)
 # [new_images2.append(i) for i in four_image_shift(image) for image in images]
 
@@ -131,10 +112,10 @@ if not os.path.isfile('images/multiple_digit_example.png'):
 
 pipeline = Pipeline([('std_scalar', StandardScaler())])  # Other steps can be added in here after experimentation
 x_prepared = pipeline.fit_transform(x.astype(np.float64))  # The model actually does worse with scaled x values.
-# scaler = StandardScaler()
-# x_prepared = scaler.fit_transform(x.astype(np.float64))
+
 
 """ Fit to a model """
+console_newline()
 print('Fitting a model stage')
 
 param_grid = [{'n_neighbors': [4, 5], 'weights': ['uniform', 'distance']}]
@@ -208,40 +189,7 @@ def aug_data():
     y_knn_aug_pred = kn_clf.predict(x_test)
     knn_score = accuracy_score(y_test, y_knn_aug_pred)
     print('KNN best classifier (with augmented data) score on test set:', knn_score)
-=======
-
-image = x[1500].reshape(28, 28)
-moves = [-1, 1]
-
-images = [image, x[2000].reshape(28, 28), x[3000].reshape(28, 28)]
 
 
-def four_image_shift(im):
 
-    ims = [im]
-    for move in moves:
-        ims.append(shift_image(im, dx=move))
-        ims.append(shift_image(im, dy=move))
-
-    for image in ims:
-        fig, ax = plt.subplots()
-        ax.imshow(image, cmap="Greys")
-        center_of_mass = centre_mass(image)
-        ax.scatter(center_of_mass[1], center_of_mass[0], s=160, c='C0', marker='+')
-        plt.show()
-
-    return ims
-
-
-new_images = []
-new_images2 = []
-for image in images:
-    for i in four_image_shift(image):
-        new_images.append(i)
-
-[new_images2.append(i) for i in four_image_shift(image) for image in images]
-print(len(new_images), len(new_images2))
-
-
->>>>>>> 94e9c97f906374e4057eb92d2cfe2a0e1413eec7
 

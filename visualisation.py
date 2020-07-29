@@ -2,6 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def console_newline():
+    print('\n----------------------')
+
+
 def plot_digit_prediction(data, label, prediction):
     string = 'No'
     if prediction:
