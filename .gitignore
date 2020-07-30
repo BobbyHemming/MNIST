@@ -135,4 +135,4 @@ dmypy.json
 MLvenv/
 models/
 .idea
-
+sqlconnection.py
